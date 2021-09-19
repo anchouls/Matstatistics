@@ -12,13 +12,13 @@ rng = default_rng()
 def uniform(k):
     X = rng.uniform(0, a, n)
     m_k = np.sum(np.power(X, k)) / n
-    return ((k + 1) * m_k) ** (1.0 / k)
+    return ((k + 1) * m_k) ** (1 / k)
 
 
 def exp(k):
     X = rng.exponential(a, n)
     m_k = np.sum(np.power(X, k)) / n
-    return (m_k / math.factorial(k)) ** (1.0 / k)
+    return (m_k / math.factorial(k)) ** (1 / k)
 
 
 def fun(f, name):
