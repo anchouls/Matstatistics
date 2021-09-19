@@ -3,56 +3,41 @@ from numpy.random import default_rng
 import matplotlib.pyplot as plt
 import math
 
+n = 1000
+s = 1000
+a = 1
+rng = default_rng()
 
-def uniform():
+
+def uniform(k):
+    X = rng.uniform(0, a, n)
+    m_k = np.sum(np.power(X, k)) / n
+    return ((k + 1) * m_k) ** (1.0 / k)
+
+
+def exp(k):
+    X = rng.exponential(a, n)
+    m_k = np.sum(np.power(X, k)) / n
+    return (m_k / math.factorial(k)) ** (1.0 / k)
+
+
+def fun(f, name):
     K = []
     SKO = []
-
-    for k in np.arange(0.1, 20, 0.1):
-        n = 5000
-        s = 1000
-        a = 1
-        rng = default_rng()
+    for k in range(1, 50):
         sko = 0
         for i in range(s):
-            X = rng.uniform(0, a, n)
-            m_k = np.sum(np.power(X, k)) / n
-            ai = ((k + 1) * m_k) ** (1 / k)
-            sko += (ai - a) ** 2
+            sko += (f(k) - a) ** 2
         sko /= s
         K.append(k)
         SKO.append(sko)
 
-    plt.plot(K, SKO)
+    plt.plot(K, SKO, label=name)
     plt.xlabel('k')
     plt.ylabel('СКО')
+    plt.legend()
     plt.show()
 
 
-def exp():
-    K = []
-    SKO = []
-
-    for k in np.arange(1, 50):
-        n = 5000
-        s = 1000
-        a = 1
-        rng = default_rng()
-        sko = 0
-        for i in range(s):
-            X = rng.exponential(a, n)
-            m_k = np.sum(np.power(X, k)) / n
-            ai = (m_k/math.factorial(k)) ** (1 / k)
-            sko += (ai - a) ** 2
-        sko /= s
-        K.append(k)
-        SKO.append(sko)
-
-    plt.plot(K, SKO)
-    plt.xlabel('k')
-    plt.ylabel('СКО')
-    plt.show()
-
-
-uniform()
-exp()
+fun(uniform, "Uniform")
+fun(exp, "Exponential")
